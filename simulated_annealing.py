@@ -4,13 +4,14 @@ import math
 class SimulatedAnnealing:
     """焼きなまし法を実行するクラス"""
 
-    def __init__(self, initial_state, initial_temp, cooling_rate, n_iterations):
+    def __init__(self, initial_state, initial_temp, cooling_rate, n_iterations, on_step=None):
         """
         コンストラクタ
         :param initial_state: 初期状態のStateインスタンス
         :param initial_temp: 初期温度
         :param cooling_rate: 冷却率
         :param n_iterations: 繰り返し回数
+        :param on_step: ステップごとに呼び出されるコールバック関数
         """
         self.state = initial_state
         self.initial_temp = initial_temp
@@ -19,6 +20,7 @@ class SimulatedAnnealing:
         self.current_temp = initial_temp
         self.best_state = initial_state
         self.best_energy = self.evaluate_energy(initial_state)
+        self.on_step = on_step
 
     def evaluate_energy(self, state):
         """
@@ -60,5 +62,8 @@ class SimulatedAnnealing:
                     self.best_energy = new_energy
 
             self.current_temp = self.cool_down(self.initial_temp, iteration)
+
+            if self.on_step:
+                self.on_step(self.state, iteration, self.best_energy)
 
         return self.best_state.state, self.best_energy
