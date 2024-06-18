@@ -7,7 +7,7 @@ class SimulatedAnnealing:
     def __init__(self, initial_state, initial_temp, cooling_rate, n_iterations):
         """
         コンストラクタ
-        :param initial_state: 初期状態
+        :param initial_state: 初期状態のStateインスタンス
         :param initial_temp: 初期温度
         :param cooling_rate: 冷却率
         :param n_iterations: 繰り返し回数
@@ -26,8 +26,7 @@ class SimulatedAnnealing:
         :param state: 評価する状態
         :return: 状態のエネルギー
         """
-        # ユーザーが定義する評価関数
-        raise NotImplementedError("サブクラスでこのメソッドを実装してください")
+        return state.evaluate_energy()
 
     def neighbor(self, state):
         """
@@ -35,8 +34,8 @@ class SimulatedAnnealing:
         :param state: 現在の状態
         :return: 隣接する新しい状態
         """
-        # ユーザーが定義する近傍関数
-        raise NotImplementedError("サブクラスでこのメソッドを実装してください")
+        new_state_values = state.neighbor()
+        return State(state.size, new_state_values)
 
     def cool_down(self, temp, iteration):
         """
@@ -62,4 +61,4 @@ class SimulatedAnnealing:
 
             self.current_temp = self.cool_down(self.initial_temp, iteration)
 
-        return self.best_state, self.best_energy
+        return self.best_state.state, self.best_energy

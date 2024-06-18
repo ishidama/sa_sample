@@ -1,8 +1,8 @@
-import random
 from simulated_annealing import SimulatedAnnealing
+from state import State
 
 class ExampleAnnealing(SimulatedAnnealing):
-    """焼きなまし法の具体例として、リストの要素の合計を最小化するクラス"""
+    """焼きなまし法の具体例として、状態クラスを使用するクラス"""
 
     def evaluate_energy(self, state):
         """
@@ -10,8 +10,7 @@ class ExampleAnnealing(SimulatedAnnealing):
         :param state: 評価する状態
         :return: 状態のエネルギー
         """
-        # ここでは、リストの要素の合計がエネルギーとなる
-        return sum(state)
+        return state.evaluate_energy()
 
     def neighbor(self, state):
         """
@@ -19,8 +18,5 @@ class ExampleAnnealing(SimulatedAnnealing):
         :param state: 現在の状態
         :return: 隣接する新しい状態
         """
-        # リストの2つの要素をランダムに入れ替える
-        new_state = state[:]
-        i, j = random.sample(range(len(state)), 2)
-        new_state[i], new_state[j] = new_state[j], new_state[i]
-        return new_state
+        new_state_values = state.neighbor()
+        return State(state.size, new_state_values)
