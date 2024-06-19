@@ -49,5 +49,12 @@ class State:
         """
         new_state = self.state[:]
         i, j = random.sample(range(self.size), 2)
+        old_energy = self.evaluate_energy()
         new_state[i], new_state[j] = new_state[j], new_state[i]
+        new_energy = self.evaluate_energy()
+
+        # コンソールに情報を出力
+        print(f"Swapped indices {i} ({self.state[i]}) and {j} ({self.state[j]})")
+        print(f"Old energy: {old_energy}, New energy: {new_energy}")
+
         return new_state
