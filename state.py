@@ -17,16 +17,29 @@ class State:
         else:
             self.state = state
 
+    # def evaluate_energy(self):
+    #     """
+    #     状態のエネルギーを評価する関数
+    #     :return: 状態のエネルギー
+    #     """
+    #     # ここでは、隣接する異なる色のペアの数をエネルギーとする
+    #     energy = 0
+    #     for i in range(len(self.state) - 1):
+    #         if self.state[i] != self.state[i + 1]:
+    #             energy += 100
+    #     return energy
+
     def evaluate_energy(self):
         """
         状態のエネルギーを評価する関数
         :return: 状態のエネルギー
         """
-        # ここでは、隣接する異なる色のペアの数をエネルギーとする
         energy = 0
-        for i in range(len(self.state) - 1):
-            if self.state[i] != self.state[i + 1]:
-                energy += 100
+        for i in range(len(self.state)):
+            for j in range(i + 1, len(self.state)):
+                if self.state[i] != self.state[j]:
+                    distance = abs(i - j)
+                    energy += 100 / (distance ** 2)  # 距離の逆二乗に比例するエネルギー
         return energy
 
     def neighbor(self):
